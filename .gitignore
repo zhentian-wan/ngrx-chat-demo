@@ -6,16 +6,21 @@
 
 # dependencies
 /node_modules
-/bower_components
 
 # IDEs and editors
 /.idea
-/.vscode
 .project
 .classpath
 .c9/
 *.launch
 .settings/
+
+# IDE - VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
 /.sass-cache
@@ -33,3 +38,5 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+.idea
