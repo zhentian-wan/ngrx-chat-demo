@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Store} from '@ngrx/store';
+import {ThreadsService} from "../services/threads.service";
+import {AppState} from "../store/application-state";
 
 @Component({
   selector: 'thread-section',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThreadSectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private store: Store<AppState>,
+    private threadsService: ThreadsService) {
+
+  }
 
   ngOnInit() {
+    this.threadsService.loadUserThreads()
+      .subscribe((data) => {
+        console.log(data);
+      })
   }
 
 }
