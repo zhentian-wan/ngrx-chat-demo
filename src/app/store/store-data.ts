@@ -14,3 +14,9 @@ export interface StoreData {
     [key: number]: Message
   };
 }
+
+export const INITIAL_STORE_DATA = {
+  participants: {},
+  threads: {},
+  messages: {}
+};

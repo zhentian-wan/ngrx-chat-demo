@@ -10,6 +10,7 @@ import {UserSelectionModule} from "./user-selection/user-selection.module";
 import {ThreadSectionModule} from "./thread-section/thread-section.module";
 import {MessageSectionModule} from "./message-section/message-section.module";
 import {ThreadsService} from "./services/threads.service";
+import {INITIAL_APPLICATION_STATE} from "./store/application-state";
 
 const rootReducer = combineReducers({});
 
@@ -21,7 +22,7 @@ const rootReducer = combineReducers({});
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(rootReducer),
+    StoreModule.provideStore(rootReducer, INITIAL_APPLICATION_STATE),
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     }),
