@@ -15,14 +15,15 @@ export class ThreadSectionComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private threadsService: ThreadsService) {
-
+      store.subscribe(console.log)
   }
 
   ngOnInit() {
+
     this.threadsService.loadUserThreads()
       .subscribe((allUserData: AllUserData) => {
         this.store.dispatch(new LoadUserThreadsAction(allUserData))
-      })
+      });
   }
 
 }
