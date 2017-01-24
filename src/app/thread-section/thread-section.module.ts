@@ -10,6 +10,9 @@ import { ThreadListComponent } from './thread-list/thread-list.component';
   exports: [
     ThreadSectionComponent
   ],
-  declarations: [ThreadSectionComponent, ThreadListComponent]
+  declarations: [
+    ThreadSectionComponent,
+    ThreadListComponent
+  ]
 })
 export class ThreadSectionModule { }

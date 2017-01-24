@@ -7,8 +7,9 @@ import {LoadUserThreadsAction} from "../store/actions";
 import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/skip';
-import {values} from 'ramda';
+import {values, keys, last} from 'ramda';
 import {Thread} from "../../../shared/model/thread.interface";
+import {ThreadSummary} from "./model/threadSummary.interface";
 
 
 @Component({
@@ -20,28 +21,58 @@ export class ThreadSectionComponent implements OnInit {
 
   userName$: Observable<string>;
   counterOfUnreadMessages$: Observable<number>;
+  threadSummary$: Observable<ThreadSummary[]>;
 
   constructor(private store: Store<AppState>,
               private threadsService: ThreadsService) {
 
-    this.userName$ = store
-      .skip(1) // skip the initial value
-      .map(this.mapStateToUsername);
+    this.userName$ = store.select(this.userNameSelector);
 
-    this.counterOfUnreadMessages$ = store
-      .skip(1)
-      .map(this.mapStateToUnreadMessages);
+    this.counterOfUnreadMessages$ = store.select(this.unreadMessageCounterSelector);
+
+    this.threadSummary$ = store.select(this.mapStateToThreadSummarySelector.bind(this))
   }
 
-  mapStateToUsername(state: AppState): string {
-    return state.storeData.participants[state.uiState.userId].name;
+  mapStateToThreadSummarySelector(state: AppState): ThreadSummary[] {
+    const threads = values<Thread>(state.storeData.threads);
+    return threads.map((thread) => this.mapThreadToThreadSummary(thread, state));
   }
 
-  mapStateToUnreadMessages(state: AppState): number {
+  mapThreadToThreadSummary(thread: Thread, state: AppState): ThreadSummary {
+    const names: string = keys(thread.participants)
+      .map(participantId => state.storeData.participants[participantId].name)
+      .join(', ');
+    const lastMessageId: number = last(thread.messageIds);
+    const lastMessage = state.storeData.messages[lastMessageId];
+    return {
+      id: thread.id,
+      participants: names,
+      lastMessage: lastMessage.text,
+      timestamp: lastMessage.timestamp
+    };
+  }
+
+  userNameSelector(state: AppState): string {
+    const currentUserId = state.uiState.userId;
+    const currentParticipant = state.storeData.participants[currentUserId];
+
+    if (!currentParticipant) {
+      return "";
+    }
+
+    return currentParticipant.name;
+  }
+
+  unreadMessageCounterSelector(state: AppState): number {
     const currentUserId: number = state.uiState.userId;
+
+    if (!currentUserId) {
+      return 0;
+    }
+
     return values<Thread>(state.storeData.threads)
       .reduce(
-        (acc: number, thread) => acc + thread.participants[currentUserId]
+        (acc: number, thread) => acc + (thread.participants[currentUserId] || 0)
         , 0);
   }
 
