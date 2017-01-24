@@ -12,6 +12,8 @@ import {MessageSectionModule} from "./message-section/message-section.module";
 import {ThreadsService} from "./services/threads.service";
 
 import {storeReducer} from './reducers/store.reducer';
+import {EffectsModule} from "@ngrx/effects";
+import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.service";
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import {storeReducer} from './reducers/store.reducer';
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     }),
+    EffectsModule.run(LoadUserThreadsEffectService),
     UserSelectionModule,
     ThreadSectionModule,
     MessageSectionModule

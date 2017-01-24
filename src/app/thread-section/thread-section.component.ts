@@ -1,12 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {ThreadsService} from "../services/threads.service";
 import {AppState} from "../store/application-state";
-import {AllUserData} from "../../../shared/to/all-user-data";
 import {LoadUserThreadsAction} from "../store/actions";
 import {Observable} from "rxjs";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/skip';
 import {values, keys, last} from 'ramda';
 import {Thread} from "../../../shared/model/thread.interface";
 import {ThreadSummary} from "./model/threadSummary.interface";
@@ -23,8 +19,7 @@ export class ThreadSectionComponent implements OnInit {
   counterOfUnreadMessages$: Observable<number>;
   threadSummary$: Observable<ThreadSummary[]>;
 
-  constructor(private store: Store<AppState>,
-              private threadsService: ThreadsService) {
+  constructor(private store: Store<AppState>) {
 
     this.userName$ = store.select(this.userNameSelector);
 
@@ -78,10 +73,7 @@ export class ThreadSectionComponent implements OnInit {
 
   ngOnInit() {
 
-    this.threadsService.loadUserThreads()
-      .subscribe((allUserData: AllUserData) => {
-        this.store.dispatch(new LoadUserThreadsAction(allUserData))
-      });
+    this.store.dispatch(new LoadUserThreadsAction())
   }
 
 }
