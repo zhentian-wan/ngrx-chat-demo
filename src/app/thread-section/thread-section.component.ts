@@ -18,6 +18,7 @@ export class ThreadSectionComponent implements OnInit {
   userName$: Observable<string>;
   counterOfUnreadMessages$: Observable<number>;
   threadSummary$: Observable<ThreadSummary[]>;
+  currentSelectedThreadId$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
 
@@ -25,7 +26,9 @@ export class ThreadSectionComponent implements OnInit {
 
     this.counterOfUnreadMessages$ = store.select(this.unreadMessageCounterSelector);
 
-    this.threadSummary$ = store.select(this.mapStateToThreadSummarySelector.bind(this))
+    this.threadSummary$ = store.select(this.mapStateToThreadSummarySelector.bind(this));
+
+    this.currentSelectedThreadId$ = store.select(state => state.uiState.currentSelectedID);
   }
 
   mapStateToThreadSummarySelector(state: AppState): ThreadSummary[] {

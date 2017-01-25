@@ -11,6 +11,9 @@ export class ThreadListComponent implements OnInit {
   @Input()
   threads: ThreadSummary[];
 
+  @Input()
+  selectedId: number;
+
   @Output()
   selectedThread: EventEmitter<number> = new EventEmitter<number>();
 
