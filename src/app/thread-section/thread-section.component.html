@@ -7,5 +7,5 @@
         </span>
   </div>
 
-  <thread-list [threads]="threadSummary$ | async"></thread-list>
+  <thread-list [threads]="threadSummary$ | async" (selectedThread)="onThreadSelected($event)"></thread-list>
 </div>

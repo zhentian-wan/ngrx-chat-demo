@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {ThreadSummary} from "../model/threadSummary.interface";
 
 @Component({
@@ -10,7 +10,15 @@ export class ThreadListComponent implements OnInit {
 
   @Input()
   threads: ThreadSummary[];
+
+  @Output()
+  selectedThread: EventEmitter<number> = new EventEmitter<number>();
+
   constructor() { }
+
+  onThreadClick(id: number): void{
+    this.selectedThread.emit(id);
+  }
 
   ngOnInit() {
   }
