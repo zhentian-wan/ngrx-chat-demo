@@ -11,7 +11,7 @@ import {ThreadSectionModule} from "./thread-section/thread-section.module";
 import {MessageSectionModule} from "./message-section/message-section.module";
 import {ThreadsService} from "./services/threads.service";
 
-import {storeReducer} from './reducers/store.reducer';
+import {rootReducers} from './reducers/index';
 import {EffectsModule} from "@ngrx/effects";
 import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.service";
 
@@ -23,7 +23,7 @@ import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.se
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer),
+    StoreModule.provideStore(rootReducers),
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     }),

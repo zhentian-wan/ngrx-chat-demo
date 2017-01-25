@@ -15,8 +15,8 @@ export interface StoreData {
   };
 }
 
-export const INITIAL_STORE_DATA = {
-  participants: {},
+export const INITIAL_STORE_DATA: StoreData = {
   threads: {},
-  messages: {}
+  messages: {},
+  participants: {}
 };
