@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {AppState} from "../store/application-state";
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs";
 
 import {keys} from 'ramda';
 import {MessageVM} from "./model/message-vm.interface";
+import {SendNewMessage, SEND_NEW_MESSAGE_PAYLOAD} from "../store/actions";
+import {UiState} from "../store/ui-state";
 
 @Component({
   selector: 'message-section',
@@ -15,10 +17,12 @@ export class MessageSectionComponent {
 
   participantNames$: Observable<string>;
   messages$: Observable<MessageVM[]>;
+  uiState: UiState;
 
   constructor(private store: Store<AppState>) {
     this.participantNames$ = store.select(this.participantNamesSelector);
     this.messages$ = store.select(this.messageSelector.bind(this));
+    store.subscribe(state => this.uiState = Object.assign({}, state.uiState));
   }
 
   messageSelector(state: AppState): MessageVM[] {
@@ -51,5 +55,18 @@ export class MessageSectionComponent {
     return participantIds
       .map((pId) => state.storeData.participants[pId].name)
       .join(', ');
+  }
+
+  onSendNewMessage(input: any): void {
+    if(!this.uiState.currentSelectedID) {
+      return;
+    }
+    const payload = {
+      text: input.value,
+      threadId: this.uiState.currentSelectedID,
+      participantId: this.uiState.userId
+    };
+    this.store.dispatch(new SendNewMessage(payload));
+    input.value = "";
   }
 }
