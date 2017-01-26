@@ -4,4 +4,5 @@ export interface ThreadSummary {
   participants: string;
   lastMessage: string;
   timestamp: number;
+  read: boolean;
 }

@@ -46,7 +46,8 @@ export class ThreadSectionComponent {
       id: thread.id,
       participants: names,
       lastMessage: lastMessage.text,
-      timestamp: lastMessage.timestamp
+      timestamp: lastMessage.timestamp,
+      read: thread.id === state.uiState.currentSelectedID || thread.participants[state.uiState.userId] === 0
     };
   }
 
