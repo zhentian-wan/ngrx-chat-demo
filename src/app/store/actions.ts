@@ -2,6 +2,7 @@
 
 import {AllUserData} from "../../../shared/to/all-user-data";
 import {Action} from "@ngrx/store";
+import {Message} from "../../../shared/model/message.interface";
 
 export const LOAD_USER_THREADS_ACTION = "LOAD_USER_THREADS_ACTION";
 export const LOAD_USER_THREADS_SUCCESS = "LOAD_USER_THREADS_SUCCESS";
@@ -50,8 +51,15 @@ export class SendNewMessage implements Action {
   constructor(public payload?: SEND_NEW_MESSAGE_PAYLOAD) {}
 }
 
+
+export interface NewMessagesReceivedActionPayload {
+  unreadMessages: Message[];
+  currentUserId: number;
+  currentThreadId: number;
+}
+
 export class NewMessagesReceivedAction implements Action {
   readonly type = NEW_MESSAGES_RECEIVED_ACTION;
 
-  constructor(public payload?) {}
+  constructor(public payload?: NewMessagesReceivedActionPayload) {}
 }

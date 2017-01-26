@@ -19,6 +19,11 @@ export class RefreshMessageListEffectService {
     .map(([_, uiState]) => uiState)
     .filter((uiState) => uiState['userId'])
     .switchMap((uiState) => this.threadService.loadNewMessages(uiState['userId']))
-    .map((messages) => new NewMessagesReceivedAction(messages))
+    .withLatestFrom(this.store.select("uiState"))
+    .map(([unreadMessages, uiState]) => new NewMessagesReceivedAction({
+      unreadMessages,
+      currentThreadId: uiState['currentSelectedID'],
+      currentUserId: uiState['userId']
+    }))
 
 }

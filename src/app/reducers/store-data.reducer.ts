@@ -24,16 +24,21 @@ export function uiStoreDataReducer(state: StoreData = INITIAL_STORE_DATA, action
 
 function newMessagesReceivedAction(state: StoreData, action: NewMessagesReceivedAction) {
   const cloneState = cloneDeep(state);
-
-  const newMessages = action.payload;
+console.log("cloneState", action.payload);
+  const newMessages = action.payload.unreadMessages,
+    currentThreadId = action.payload.currentThreadId,
+    currentUserId = action.payload.currentUserId;
 
   newMessages.forEach(message => {
     cloneState.messages[message.id] = message;
     cloneState.threads[message.threadId].messageIds.push(message.id);
+
+    if(message.threadId !== currentThreadId) {
+      cloneState.threads[message.threadId].participants[currentUserId] += 1;
+    }
   });
 
   return cloneState;
-
 }
 
 function handleLoadUserThreadsAction(state: StoreData = INITIAL_STORE_DATA, action: LoadUserThreadsSuccess): StoreData {

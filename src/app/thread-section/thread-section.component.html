@@ -2,7 +2,7 @@
 
   <div class="thread-count">
     <span><h3>User: {{userName$ | async }}</h3></span>
-    <span class="unread-messages-counter" [ngClass]="{unread: (unreadMessagesCounter$ | async) > 0 }">
+    <span class="unread-messages-counter" [ngClass]="{unread: (counterOfUnreadMessages$ | async) > 0 }">
             Unread messages: {{counterOfUnreadMessages$ | async }}
         </span>
   </div>
