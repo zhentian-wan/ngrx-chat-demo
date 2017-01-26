@@ -23,4 +23,9 @@ export class ThreadsService {
       xhrHeaders(payload.participantId)
     );
   }
+
+  loadNewMessages(userId: number): Observable<any> {
+    return this.http.post(`/api/notifications/messages`, null, xhrHeaders(userId))
+      .map(res => res.json().payload);
+  }
 }

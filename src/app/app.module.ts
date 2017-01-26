@@ -15,6 +15,7 @@ import {rootReducers} from './reducers/index';
 import {EffectsModule} from "@ngrx/effects";
 import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.service";
 import {SaveNewMessageEffectService} from "./store/effects/save-new-message.service";
+import {RefreshMessageListEffectService} from "./store/effects/refresh-message-list.service";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {SaveNewMessageEffectService} from "./store/effects/save-new-message.serv
     }),
     EffectsModule.run(LoadUserThreadsEffectService),
     EffectsModule.run(SaveNewMessageEffectService),
+    EffectsModule.run(RefreshMessageListEffectService),
     UserSelectionModule,
     ThreadSectionModule,
     MessageSectionModule

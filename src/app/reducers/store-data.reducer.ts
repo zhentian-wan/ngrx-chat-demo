@@ -1,6 +1,7 @@
 import {StoreData, INITIAL_STORE_DATA} from "../store/store-data";
 import {
-  LOAD_USER_THREADS_SUCCESS, LoadUserThreadsSuccess, SEND_NEW_MESSAGE_ACTION, SendNewMessage
+  LOAD_USER_THREADS_SUCCESS, LoadUserThreadsSuccess, SEND_NEW_MESSAGE_ACTION, SendNewMessage,
+  NEW_MESSAGES_RECEIVED_ACTION, NewMessagesReceivedAction
 } from "../store/actions";
 import {keyBy, cloneDeep} from 'lodash';
 import {Action} from '@ngrx/store';
@@ -14,9 +15,25 @@ export function uiStoreDataReducer(state: StoreData = INITIAL_STORE_DATA, action
       return handleLoadUserThreadsAction(state, action);
     case SEND_NEW_MESSAGE_ACTION:
       return sendNewMessageAction(state, action);
+    case NEW_MESSAGES_RECEIVED_ACTION:
+      return newMessagesReceivedAction(state, action);
     default:
       return state;
   }
+}
+
+function newMessagesReceivedAction(state: StoreData, action: NewMessagesReceivedAction) {
+  const cloneState = cloneDeep(state);
+
+  const newMessages = action.payload;
+
+  newMessages.forEach(message => {
+    cloneState.messages[message.id] = message;
+    cloneState.threads[message.threadId].messageIds.push(message.id);
+  });
+
+  return cloneState;
+
 }
 
 function handleLoadUserThreadsAction(state: StoreData = INITIAL_STORE_DATA, action: LoadUserThreadsSuccess): StoreData {
