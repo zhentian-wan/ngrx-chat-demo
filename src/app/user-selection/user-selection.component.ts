@@ -8,13 +8,9 @@ import {Store} from '@ngrx/store';
   templateUrl: './user-selection.component.html',
   styleUrls: ['./user-selection.component.css']
 })
-export class UserSelectionComponent implements OnInit {
+export class UserSelectionComponent {
 
   constructor(private store: Store<AppState>) { }
-
-  ngOnInit() {
-
-  }
 
   onSelectUser(userId: number): void {
     this.store.dispatch(new UserSelectedAction(userId));

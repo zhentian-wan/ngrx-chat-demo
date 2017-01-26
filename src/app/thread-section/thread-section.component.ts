@@ -13,7 +13,7 @@ import {ThreadSummary} from "./model/threadSummary.interface";
   templateUrl: './thread-section.component.html',
   styleUrls: ['./thread-section.component.css']
 })
-export class ThreadSectionComponent implements OnInit {
+export class ThreadSectionComponent {
 
   userName$: Observable<string>;
   counterOfUnreadMessages$: Observable<number>;
@@ -76,8 +76,5 @@ export class ThreadSectionComponent implements OnInit {
 
   onThreadSelected(selectedThreadId: number) {
     this.store.dispatch(new ThreadSelectedAction(selectedThreadId));
-  }
-
-  ngOnInit() {
   }
 }

@@ -5,12 +5,8 @@ import {Component, OnInit, Input} from '@angular/core';
   templateUrl: './message-list.component.html',
   styleUrls: ['./message-list.component.css']
 })
-export class MessageListComponent implements OnInit {
+export class MessageListComponent {
 
   @Input() messages;
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

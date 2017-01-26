@@ -11,7 +11,7 @@ import {MessageVM} from "./model/message-vm.interface";
   templateUrl: './message-section.component.html',
   styleUrls: ['./message-section.component.css']
 })
-export class MessageSectionComponent implements OnInit {
+export class MessageSectionComponent {
 
   participantNames$: Observable<string>;
   messages$: Observable<MessageVM[]>;
@@ -52,8 +52,4 @@ export class MessageSectionComponent implements OnInit {
       .map((pId) => state.storeData.participants[pId].name)
       .join(', ');
   }
-
-  ngOnInit() {
-  }
-
 }
