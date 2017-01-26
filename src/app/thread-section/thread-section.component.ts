@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from "../store/application-state";
-import {LoadUserThreadsAction, ThreadSelectedAction} from "../store/actions";
+import {ThreadSelectedAction} from "../store/actions";
 import {Observable} from "rxjs";
 import {values, keys, last} from 'ramda';
 import {Thread} from "../../../shared/model/thread.interface";
@@ -79,6 +79,5 @@ export class ThreadSectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new LoadUserThreadsAction())
   }
 }

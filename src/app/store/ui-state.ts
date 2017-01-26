@@ -5,6 +5,6 @@ export interface UiState {
 }
 
 export const INITIAL_UI_STATE: UiState = {
-  userId: 1,
+  userId: undefined,
   currentSelectedID: undefined
 };

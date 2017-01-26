@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as R from 'ramda';
+import {AppState} from "../store/application-state";
+import {UserSelectedAction} from "../store/actions";
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'user-selection',
@@ -8,11 +10,13 @@ import * as R from 'ramda';
 })
 export class UserSelectionComponent implements OnInit {
 
-  number = 1;
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.number = R.multiply(2, this.number);
+
   }
 
+  onSelectUser(userId: number): void {
+    this.store.dispatch(new UserSelectedAction(userId));
+  }
 }

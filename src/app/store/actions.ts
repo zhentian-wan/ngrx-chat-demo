@@ -6,9 +6,12 @@ import {Action} from "@ngrx/store";
 export const LOAD_USER_THREADS_ACTION = "LOAD_USER_THREADS_ACTION";
 export const LOAD_USER_THREADS_SUCCESS = "LOAD_USER_THREADS_SUCCESS";
 export const THREAD_SELECTED_ACTION = "THREAD_SELECTED_ACTION";
+export const USER_SELECTED_ACTION = "USER_SELECTED_ACTION";
 
 export class LoadUserThreadsAction implements Action {
   readonly type = LOAD_USER_THREADS_ACTION;
+
+  constructor(public payload?: number) {}
 }
 
 export class LoadUserThreadsSuccess implements Action {
@@ -21,6 +24,12 @@ export class LoadUserThreadsSuccess implements Action {
 
 export class ThreadSelectedAction implements Action {
   readonly type = THREAD_SELECTED_ACTION;
+
+  constructor(public payload?: number){}
+}
+
+export class UserSelectedAction implements Action {
+  readonly type = USER_SELECTED_ACTION;
 
   constructor(public payload?: number){}
 }
