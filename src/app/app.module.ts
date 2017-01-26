@@ -14,6 +14,7 @@ import {ThreadsService} from "./services/threads.service";
 import {rootReducers} from './reducers/index';
 import {EffectsModule} from "@ngrx/effects";
 import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.service";
+import {SaveNewMessageEffectService} from "./store/effects/save-new-message.service";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.se
       maxAge: 5
     }),
     EffectsModule.run(LoadUserThreadsEffectService),
+    EffectsModule.run(SaveNewMessageEffectService),
     UserSelectionModule,
     ThreadSectionModule,
     MessageSectionModule
