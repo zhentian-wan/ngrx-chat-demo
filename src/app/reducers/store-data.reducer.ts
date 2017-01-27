@@ -1,7 +1,7 @@
 import {StoreData, INITIAL_STORE_DATA} from "../store/store-data";
 import {
   LOAD_USER_THREADS_SUCCESS, LoadUserThreadsSuccess, SEND_NEW_MESSAGE_ACTION, SendNewMessage,
-  NEW_MESSAGES_RECEIVED_ACTION, NewMessagesReceivedAction
+  NEW_MESSAGES_RECEIVED_ACTION, NewMessagesReceivedAction, THREAD_SELECTED_ACTION, ThreadSelectedAction
 } from "../store/actions";
 import {keyBy, cloneDeep} from 'lodash';
 import {Action} from '@ngrx/store';
@@ -10,6 +10,7 @@ import {Message} from "../../../shared/model/message.interface";
 const uuid = require('uuid/V4');
 
 export function uiStoreDataReducer(state: StoreData = INITIAL_STORE_DATA, action: Action): StoreData {
+
   switch (action.type) {
     case LOAD_USER_THREADS_SUCCESS:
       return handleLoadUserThreadsAction(state, action);
@@ -17,14 +18,21 @@ export function uiStoreDataReducer(state: StoreData = INITIAL_STORE_DATA, action
       return sendNewMessageAction(state, action);
     case NEW_MESSAGES_RECEIVED_ACTION:
       return newMessagesReceivedAction(state, action);
+    case THREAD_SELECTED_ACTION:
+      return threadSelectedAction(state, action);
     default:
       return state;
   }
 }
 
+function threadSelectedAction(state: StoreData, action: ThreadSelectedAction) {
+  const cloneState = cloneDeep(state);
+  cloneState.threads[action.payload.currentThreadId].participants[action.payload.currentUserId] = 0;
+  return cloneState;
+}
+
 function newMessagesReceivedAction(state: StoreData, action: NewMessagesReceivedAction) {
   const cloneState = cloneDeep(state);
-console.log("cloneState", action.payload);
   const newMessages = action.payload.unreadMessages,
     currentThreadId = action.payload.currentThreadId,
     currentUserId = action.payload.currentUserId;

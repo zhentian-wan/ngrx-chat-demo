@@ -26,10 +26,15 @@ export class LoadUserThreadsSuccess implements Action {
   }
 }
 
+export interface ThreadSelectedActionPayload {
+  currentThreadId: number;
+  currentUserId: number;
+}
+
 export class ThreadSelectedAction implements Action {
   readonly type = THREAD_SELECTED_ACTION;
 
-  constructor(public payload?: number){}
+  constructor(public payload?: ThreadSelectedActionPayload){}
 }
 
 export class UserSelectedAction implements Action {

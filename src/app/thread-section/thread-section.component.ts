@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {values, keys, last} from 'ramda';
 import {Thread} from "../../../shared/model/thread.interface";
 import {ThreadSummary} from "./model/threadSummary.interface";
+import {UiState} from "../store/ui-state";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ThreadSectionComponent {
   userName$: Observable<string>;
   counterOfUnreadMessages$: Observable<number>;
   threadSummary$: Observable<ThreadSummary[]>;
-  currentSelectedThreadId$: Observable<number>;
+  uiState: UiState;
 
   constructor(private store: Store<AppState>) {
 
@@ -28,7 +29,7 @@ export class ThreadSectionComponent {
 
     this.threadSummary$ = store.select(this.mapStateToThreadSummarySelector.bind(this));
 
-    this.currentSelectedThreadId$ = store.select(state => state.uiState.currentSelectedID);
+    store.select("uiState").subscribe((uiState: UiState) => this.uiState = uiState);
   }
 
   mapStateToThreadSummarySelector(state: AppState): ThreadSummary[] {
@@ -76,6 +77,9 @@ export class ThreadSectionComponent {
   }
 
   onThreadSelected(selectedThreadId: number) {
-    this.store.dispatch(new ThreadSelectedAction(selectedThreadId));
+    this.store.dispatch(new ThreadSelectedAction({
+      currentThreadId: selectedThreadId,
+      currentUserId: this.uiState.userId
+    }));
   }
 }

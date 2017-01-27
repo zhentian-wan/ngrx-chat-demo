@@ -8,7 +8,7 @@
   </div>
 
   <thread-list [threads]="threadSummary$ | async"
-               [selectedId]="currentSelectedThreadId$ | async"
+               [selectedId]="uiState?.currentSelectedID"
                (selectedThread)="onThreadSelected($event)">
   </thread-list>
 </div>
