@@ -2,8 +2,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {StoreModule} from '@ngrx/store';
+import {StoreModule, combineReducers} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {storeFreeze} from "ngrx-store-freeze";
 
 import {AppComponent} from './app.component';
 import {UserSelectionModule} from "./user-selection/user-selection.module";
@@ -18,6 +19,7 @@ import {SaveNewMessageEffectService} from "./store/effects/save-new-message.serv
 import {RefreshMessageListEffectService} from "./store/effects/refresh-message-list.service";
 import {MarkUnreadMessageReadEffectService} from "./store/effects/mark-unread-message-read.service";
 import { ErrorMessagesComponent } from './error-messages/error-messages.component';
+import {compose} from 'ramda';
 
 @NgModule({
   declarations: [
