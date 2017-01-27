@@ -16,10 +16,13 @@ import {EffectsModule} from "@ngrx/effects";
 import {LoadUserThreadsEffectService} from "./store/effects/load-user-threads.service";
 import {SaveNewMessageEffectService} from "./store/effects/save-new-message.service";
 import {RefreshMessageListEffectService} from "./store/effects/refresh-message-list.service";
+import {MarkUnreadMessageReadEffectService} from "./store/effects/mark-unread-message-read.service";
+import { ErrorMessagesComponent } from './error-messages/error-messages.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ErrorMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import {RefreshMessageListEffectService} from "./store/effects/refresh-message-l
     EffectsModule.run(LoadUserThreadsEffectService),
     EffectsModule.run(SaveNewMessageEffectService),
     EffectsModule.run(RefreshMessageListEffectService),
+    EffectsModule.run(MarkUnreadMessageReadEffectService),
     UserSelectionModule,
     ThreadSectionModule,
     MessageSectionModule

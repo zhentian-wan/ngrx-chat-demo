@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {ThreadsService} from "../../services/threads.service";
 import {Observable} from "rxjs";
-import {Action} from '@ngrx/store';
 import {Effect, Actions} from "@ngrx/effects";
-import {SEND_NEW_MESSAGE_ACTION} from "../actions";
+import 'rxjs/add/operator/catch';
+import {SEND_NEW_MESSAGE_ACTION, ErrorMessageAction} from "../actions";
 
 @Injectable()
 export class SaveNewMessageEffectService {
@@ -12,9 +12,9 @@ export class SaveNewMessageEffectService {
 
   }
 
-  // {dispatch: false}: no need to further trigger action
-  @Effect({dispatch: false}) saveMessage$: Observable<Action> = this.action$
+  @Effect() saveMessage$: Observable<any> = this.action$
     .ofType(SEND_NEW_MESSAGE_ACTION)
-    .switchMap((action) => this.threadService.saveNewMessage(action.payload));
+    .switchMap((action) => this.threadService.saveNewMessage(action.payload))
+    .catch(() => Observable.of("cannot send new message").map((msg: string) => new ErrorMessageAction(msg)));
 
 }

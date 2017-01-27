@@ -28,4 +28,8 @@ export class ThreadsService {
     return this.http.post(`/api/notifications/messages`, null, xhrHeaders(userId))
       .map(res => res.json().payload);
   }
+
+  markUnreadMessage(userId: number, threadId: number): Observable<any> {
+    return this.http.patch(`/api/threads/${threadId}`, {read: true, id: userId.toString()}, xhrHeaders(userId));
+  }
 }
