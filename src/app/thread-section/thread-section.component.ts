@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from "../store/application-state";
 import {ThreadSelectedAction} from "../store/actions";

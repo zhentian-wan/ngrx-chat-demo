@@ -24,6 +24,6 @@ export class RefreshMessageListEffectService {
       unreadMessages,
       currentThreadId: uiState['currentSelectedID'],
       currentUserId: uiState['userId']
-    }))
+    }));
 
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
 import {AppState} from "../store/application-state";
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs";
@@ -11,7 +11,8 @@ import {UiState} from "../store/ui-state";
 @Component({
   selector: 'message-section',
   templateUrl: './message-section.component.html',
-  styleUrls: ['./message-section.component.css']
+  styleUrls: ['./message-section.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageSectionComponent {
 
