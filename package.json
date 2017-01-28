@@ -25,6 +25,7 @@
     "@angular/router": "^3.3.1",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^2.0.0",
+    "@ngrx/router-store": "^1.2.5",
     "@ngrx/store": "github:ngrx/store",
     "@ngrx/store-devtools": "^3.2.3",
     "@types/ramda": "^0.0.3",

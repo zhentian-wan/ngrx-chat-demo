@@ -23,6 +23,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
+import {RouterStoreModule} from "@ngrx/router-store";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {routes} from "./app.routes";
     FormsModule,
     HttpModule,
     StoreModule.provideStore(rootReducers),
+    RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     }),
