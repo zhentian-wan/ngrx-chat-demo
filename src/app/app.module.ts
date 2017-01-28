@@ -19,12 +19,17 @@ import {SaveNewMessageEffectService} from "./store/effects/save-new-message.serv
 import {RefreshMessageListEffectService} from "./store/effects/refresh-message-list.service";
 import {MarkUnreadMessageReadEffectService} from "./store/effects/mark-unread-message-read.service";
 import { ErrorMessagesComponent } from './error-messages/error-messages.component';
-import {compose} from 'ramda';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import {RouterModule} from "@angular/router";
+import {routes} from "./app.routes";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorMessagesComponent
+    ErrorMessagesComponent,
+    HomeComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,8 @@ import {compose} from 'ramda';
     EffectsModule.run(MarkUnreadMessageReadEffectService),
     UserSelectionModule,
     ThreadSectionModule,
-    MessageSectionModule
+    MessageSectionModule,
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [
     ThreadsService
