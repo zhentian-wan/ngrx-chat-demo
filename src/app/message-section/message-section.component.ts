@@ -3,12 +3,11 @@ import {AppState} from "../store/application-state";
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs";
 
-import {keys} from 'ramda';
 import {MessageVM} from "./model/message-vm.interface";
 import {SendNewMessage} from "../store/actions";
 import {UiState} from "../store/ui-state";
-import {messageSelector} from "./selectors/messages";
-import {participantNamesSelector} from "./selectors/participantNames";
+import {messageSelector} from "./selectors/messages.selector";
+import {participantNamesSelector} from "./selectors/participant-names.selector";
 
 @Component({
   selector: 'message-section',
