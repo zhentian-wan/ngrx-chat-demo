@@ -7,7 +7,9 @@ import {values, keys, last} from 'ramda';
 import {Thread} from "../../../shared/model/thread.interface";
 import {ThreadSummary} from "./model/threadSummary.interface";
 import {UiState} from "../store/ui-state";
-
+import {userNameSelector} from "./selctors/user-name.selector";
+import {unreadMessageCounterSelector} from "./selctors/counter-of-unread-messages.selector";
+import {mapStateToThreadSummarySelector} from "./selctors/thread-summary.selector";
 
 @Component({
   selector: 'thread-section',
@@ -23,57 +25,13 @@ export class ThreadSectionComponent {
 
   constructor(private store: Store<AppState>) {
 
-    this.userName$ = store.select(this.userNameSelector);
+    this.userName$ = store.select(userNameSelector);
 
-    this.counterOfUnreadMessages$ = store.select(this.unreadMessageCounterSelector);
+    this.counterOfUnreadMessages$ = store.select(unreadMessageCounterSelector);
 
-    this.threadSummary$ = store.select(this.mapStateToThreadSummarySelector.bind(this));
+    this.threadSummary$ = store.select(mapStateToThreadSummarySelector);
 
     store.select("uiState").subscribe((uiState: UiState) => this.uiState = uiState);
-  }
-
-  mapStateToThreadSummarySelector(state: AppState): ThreadSummary[] {
-    const threads = values<Thread>(state.storeData.threads);
-    return threads.map((thread) => this.mapThreadToThreadSummary(thread, state));
-  }
-
-  mapThreadToThreadSummary(thread: Thread, state: AppState): ThreadSummary {
-    const names: string = keys(thread.participants)
-      .map(participantId => state.storeData.participants[participantId].name)
-      .join(', ');
-    const lastMessageId: number = last(thread.messageIds);
-    const lastMessage = state.storeData.messages[lastMessageId];
-    return {
-      id: thread.id,
-      participants: names,
-      lastMessage: lastMessage.text,
-      timestamp: lastMessage.timestamp,
-      read: thread.id === state.uiState.currentSelectedID || thread.participants[state.uiState.userId] === 0
-    };
-  }
-
-  userNameSelector(state: AppState): string {
-    const currentUserId = state.uiState.userId;
-    const currentParticipant = state.storeData.participants[currentUserId];
-
-    if (!currentParticipant) {
-      return "";
-    }
-
-    return currentParticipant.name;
-  }
-
-  unreadMessageCounterSelector(state: AppState): number {
-    const currentUserId: number = state.uiState.userId;
-
-    if (!currentUserId) {
-      return 0;
-    }
-
-    return values<Thread>(state.storeData.threads)
-      .reduce(
-        (acc: number, thread) => acc + (thread.participants[currentUserId] || 0)
-        , 0);
   }
 
   onThreadSelected(selectedThreadId: number) {

@@ -7,6 +7,8 @@ import {keys} from 'ramda';
 import {MessageVM} from "./model/message-vm.interface";
 import {SendNewMessage} from "../store/actions";
 import {UiState} from "../store/ui-state";
+import {messageSelector} from "./selectors/messages";
+import {participantNamesSelector} from "./selectors/participantNames";
 
 @Component({
   selector: 'message-section',
@@ -20,41 +22,9 @@ export class MessageSectionComponent {
   uiState: UiState;
 
   constructor(private store: Store<AppState>) {
-    this.participantNames$ = store.select(this.participantNamesSelector);
-    this.messages$ = store.select(this.messageSelector.bind(this));
+    this.participantNames$ = store.select(participantNamesSelector);
+    this.messages$ = store.select(messageSelector);
     store.subscribe(state => this.uiState = Object.assign({}, state.uiState));
-  }
-
-  messageSelector(state: AppState): MessageVM[] {
-    const {currentSelectedID} = state.uiState;
-    if (!currentSelectedID) {
-      return [];
-    }
-    const messageIds = state.storeData.threads[currentSelectedID].messageIds;
-    const messages = messageIds.map(id => state.storeData.messages[id]);
-    return messages.map((message) => this.mapMessageToMessageVM(message, state));
-  }
-
-  mapMessageToMessageVM(message, state): MessageVM {
-    return {
-      id: message.id,
-      text: message.text,
-      participantName: (state.storeData.participants[message.participantId].name || ''),
-      timestamp: message.timestamp
-    }
-  }
-
-  participantNamesSelector(state: AppState): string {
-    const {currentSelectedID} = state.uiState;
-    if (!currentSelectedID) {
-      return "";
-    }
-    const participantIds = keys(
-      state.storeData.threads[currentSelectedID].participants
-    );
-    return participantIds
-      .map((pId) => state.storeData.participants[pId].name)
-      .join(', ');
   }
 
   onSendNewMessage(input: any): void {
