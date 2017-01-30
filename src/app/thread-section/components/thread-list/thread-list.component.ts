@@ -1,10 +1,10 @@
 import {Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy} from '@angular/core';
-import {ThreadSummary} from "../model/threadSummary.interface";
+import {ThreadSummary} from "../../model/threadSummary.interface";
 
 @Component({
   selector: 'thread-list',
-  templateUrl: './thread-list.component.html',
-  styleUrls: ['./thread-list.component.css'],
+  templateUrl: 'thread-list.component.html',
+  styleUrls: ['thread-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThreadListComponent implements OnInit {

@@ -3,8 +3,8 @@ import {last} from 'lodash';
 
 @Component({
   selector: 'message-list',
-  templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.css'],
+  templateUrl: 'message-list.component.html',
+  styleUrls: ['message-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageListComponent implements OnChanges{

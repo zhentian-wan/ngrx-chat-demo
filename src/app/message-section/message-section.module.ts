@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageSectionComponent } from './message-section.component';
-import { MessageListComponent } from './message-list/message-list.component';
-import { MessageComponent } from './message/message.component';
+import { MessageListComponent } from './components/message-list/message-list.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   imports: [
