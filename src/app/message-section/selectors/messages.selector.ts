@@ -3,12 +3,7 @@ import {AppState} from "../../store/application-state";
 import {Message} from "../../../../shared/model/message.interface";
 import {Participant} from "../../../../shared/model/paticipant.interface";
 import {createSelector} from 'reselect';
-/*
-export const messageSelector = (state: AppState): MessageVM[] => {
-  const messages = _getMessagesFromCurrentThread(state);
-  const participants = _getParticipants(state);
-  return _mapMessagesToMessageVM(messages, participants);
-};*/
+import {memoize} from 'lodash';
 
 export const messageSelector = createSelector(
   _getMessagesFromCurrentThread,
@@ -29,15 +24,18 @@ function _getParticipants(state: AppState): {[key: number]: Participant} {
   return state.storeData.participants;
 }
 
-function _mapMessagesToMessageVM(messages: Message[] = [], participants) {
-  return messages.map((message) => _mapMessageToMessageVM(message, participants));
+function _mapMessagesToMessageVM(messages: Message[] = [], participants: {[key: number]: Participant}) {
+  return messages.map((message) => {
+    const participantNames = participants[message.participantId].name || '';
+    return _mapMessageToMessageVM(message, participantNames);
+  });
 }
 
-function _mapMessageToMessageVM(message: Message, participants: {[key: number]: Participant}): MessageVM {
+const _mapMessageToMessageVM = memoize((message: Message, participantName: string): MessageVM => {
   return {
     id: message.id,
     text: message.text,
-    participantName: (participants[message.participantId].name || ''),
+    participantName: participantName,
     timestamp: message.timestamp
   }
-}
+}, (message, participantName) => message.id + participantName);
