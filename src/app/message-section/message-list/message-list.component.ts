@@ -1,18 +1,17 @@
-import {Component, Input, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, ViewChild, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 import {last} from 'lodash';
 
 @Component({
   selector: 'message-list',
   templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.css']
+  styleUrls: ['./message-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageListComponent implements OnChanges{
 
   @Input() messages;
 
   @ViewChild('list') list;
-
-  constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['messages']) {

@@ -31,18 +31,36 @@ function threadSelectedAction(state: StoreData, action: ThreadSelectedAction) {
   return cloneState;
 }
 
+
 function newMessagesReceivedAction(state: StoreData, action: NewMessagesReceivedAction) {
-  const cloneState = cloneDeep(state);
+  const cloneState = {
+    participants: state.participants, // no need to update this, since it won't change from here
+    threads: Object.assign({}, state.threads),
+    messages: Object.assign({}, state.messages)
+  };
   const newMessages = action.payload.unreadMessages,
     currentThreadId = action.payload.currentThreadId,
     currentUserId = action.payload.currentUserId;
 
   newMessages.forEach(message => {
     cloneState.messages[message.id] = message;
-    cloneState.threads[message.threadId].messageIds.push(message.id);
 
-    if(message.threadId !== currentThreadId) {
-      cloneState.threads[message.threadId].participants[currentUserId] += 1;
+    // First clone 'cloneState.threads[message.threadId]',
+    // create a new reference
+    cloneState.threads[message.threadId] =
+      Object.assign({}, state.threads[message.threadId]);
+
+    // Then assign new reference to new variable
+    const messageThread = cloneState.threads[message.threadId];
+
+    messageThread.messageIds = [
+      ...messageThread.messageIds,
+      message.id
+    ];
+
+    if (message.threadId !== currentThreadId) {
+      messageThread.participants = Object.assign({}, messageThread.participants);
+      messageThread.participants[currentUserId] += 1;
     }
   });
 
@@ -58,11 +76,14 @@ function handleLoadUserThreadsAction(state: StoreData = INITIAL_STORE_DATA, acti
 }
 
 function sendNewMessageAction(state: StoreData, action: SendNewMessage): StoreData {
+  const cloneState = {
+    participants: state.participants, // no need to update this, since it won't change from here
+    threads: Object.assign({}, state.threads),
+    messages: Object.assign({}, state.messages)
+  };
 
-  const cloneState = cloneDeep(state);
   const currentThreadId = action.payload.threadId;
   const currentThread = cloneState.threads[currentThreadId] = Object.assign({}, state.threads[currentThreadId]);
-
   // Insert an new message into messages
   const newMessage: Message = {
     id: uuid(),
@@ -72,10 +93,15 @@ function sendNewMessageAction(state: StoreData, action: SendNewMessage): StoreDa
     timestamp: Date.now()
   };
 
-  // Here using .push() because don't want to break currentThread.messageIds's reference
-  // And this operation won't mutate origin state
-  currentThread.messageIds.push(newMessage.id);
+  // Object.assign doesn't do a deep clone,
+  // So we need to do a shadow copy again for 'currentThread.messageIds'
+  // for immutability reason.
+  currentThread.messageIds = [
+    ...currentThread.messageIds.slice(0),
+    newMessage.id
+  ];
 
   cloneState.messages[newMessage.id] = newMessage;
+
   return cloneState;
 }

@@ -1,18 +1,17 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {AppState} from "../store/application-state";
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs";
 
 import {keys} from 'ramda';
 import {MessageVM} from "./model/message-vm.interface";
-import {SendNewMessage, SEND_NEW_MESSAGE_PAYLOAD} from "../store/actions";
+import {SendNewMessage} from "../store/actions";
 import {UiState} from "../store/ui-state";
 
 @Component({
   selector: 'message-section',
   templateUrl: './message-section.component.html',
-  styleUrls: ['./message-section.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./message-section.component.css']
 })
 export class MessageSectionComponent {
 

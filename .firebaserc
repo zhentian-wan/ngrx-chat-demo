@@ -1,1 +1,5 @@
-{}
+{
+  "projects": {
+    "default": "ngrx-chat-3a6b3"
+  }
+}
