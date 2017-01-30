@@ -3,8 +3,6 @@
       *ngFor="let thread of threads"
       [ngClass]="{selected: thread.id === selectedId}"
       (click)="onThreadClick(thread.id)">
-    <h5 class="thread-name" [ngClass]="{unread: thread.read}">{{thread.participants}}</h5>
-    <div class="thread-time">{{thread.timestamp | date :'shortTime'}}</div>
-    <div class="thread-last-message">{{thread.lastMessage}}</div>
+      <thread [thread]="thread"></thread>
   </li>
 </ul>

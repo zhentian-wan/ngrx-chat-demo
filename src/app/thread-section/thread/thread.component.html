@@ -1,0 +1,3 @@
+<h5 class="thread-name" [ngClass]="{unread: thread.read}">{{thread.participants}}</h5>
+<div class="thread-time">{{thread.timestamp | date :'shortTime'}}</div>
+<div class="thread-last-message">{{thread.lastMessage}}</div>
