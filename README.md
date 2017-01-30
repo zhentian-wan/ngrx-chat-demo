@@ -1,7 +1,5 @@
 ## NGRX ecosystem
 
-### [DEMO]()
-
 ### Install
 `yarn`
 
